@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('coins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('avatar')->nullable()->default('https://doodleipsum.com/700/hand-drawn?i=33b0696d15473a80fe6eac989d0b708d');
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('symbol');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('coins');
     }
 };
