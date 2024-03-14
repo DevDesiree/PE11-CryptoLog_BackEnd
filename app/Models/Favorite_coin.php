@@ -10,6 +10,7 @@ class Favorite_coin extends Model
     use HasFactory;
 
     protected $table = 'favorite_coins'; 
+    protected $fillable = ['user_id', 'coin_id'];
 
     public function user()
     {
