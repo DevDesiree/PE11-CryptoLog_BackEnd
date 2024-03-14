@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coin;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,7 @@ class TransactionController extends Controller
     {
         try {
             $request->validate([
+                'coin_id' => 'required|exists:coins,id',
                 'quantity' => 'required|numeric',
                 'actual_price' => 'required|numeric',
                 'amount' => 'required|numeric',
@@ -59,7 +61,12 @@ class TransactionController extends Controller
                 return response()->json(['message' => 'No tienes permiso para actualizar esta transacción'], 403);
             }
 
-            $transaction->update($request->all());
+            $transaction->update([
+                'coin_id' => $request->coin_id,
+                'quantity' => $request->quantity,
+                'actual_price' => $request->actual_price,
+                'amount' => $request->amount,
+            ]);
 
             return response()->json(['message' => 'La transacción se ha actualizado correctamente', 'transaction' => $transaction], 200);
         } catch (\Exception $e) {
