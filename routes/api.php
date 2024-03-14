@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\FavoriteCoinController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/create-transaction', [TransactionController::class, 'store']);
     Route::put('/update-transaction/{id}', [TransactionController::class, 'update']);
     Route::delete('/delete-transaction/{id}', [TransactionController::class, 'destroy']);
+
+    Route::get('/favorite-coins', [FavoriteCoinController::class, 'index']);
+    Route::post('/favorite-coins', [FavoriteCoinController::class, 'store']);
+    Route::delete('/favorite-coins/{id}', [FavoriteCoinController::class, 'destroy']);
 });
