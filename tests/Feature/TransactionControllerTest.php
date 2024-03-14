@@ -46,30 +46,30 @@ class TransactionControllerTest extends TestCase
     }
 
     public function test_can_update_transaction()
-{
-    $user = \App\Models\User::factory()->create();
-    
-    $this->actingAs($user);
+    {
+        $user = \App\Models\User::factory()->create();
 
-    $transaction = Transaction::create([
-        'user_id' => $user->id,
-        'coin_id' => 1,
-        'quantity' => 10,
-        'price_buy' => 100,
-        'amount' => 500,
-        'actual_price' => 9000
-    ]);
+        $this->actingAs($user);
 
-    $transactionUpdate = [
-        'coin_id' => 1,
-        'quantity' => 9,
-        'price_buy' => 100,
-        'amount' => 800,
-        'actual_price' => 9000
-    ];
+        $transaction = Transaction::create([
+            'user_id' => $user->id,
+            'coin_id' => 1,
+            'quantity' => 10,
+            'price_buy' => 100,
+            'amount' => 500,
+            'actual_price' => 9000
+        ]);
 
-    $response = $this->put("/api/update-transaction/{$transaction->id}" , $transactionUpdate);
+        $transactionUpdate = [
+            'coin_id' => 1,
+            'quantity' => 9,
+            'price_buy' => 100,
+            'amount' => 800,
+            'actual_price' => 9000
+        ];
 
-    $response->assertStatus(200);
-}
+        $response = $this->put("/api/update-transaction/{$transaction->id}", $transactionUpdate);
+
+        $response->assertStatus(200);
+    }
 }
