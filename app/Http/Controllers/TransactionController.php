@@ -61,12 +61,7 @@ class TransactionController extends Controller
                 return response()->json(['message' => 'No tienes permiso para actualizar esta transacción'], 403);
             }
 
-            $transaction->update([
-                'coin_id' => $request->coin_id,
-                'quantity' => $request->quantity,
-                'actual_price' => $request->actual_price,
-                'amount' => $request->amount,
-            ]);
+            $transaction->update($request->all());
 
             return response()->json(['message' => 'La transacción se ha actualizado correctamente', 'transaction' => $transaction], 200);
         } catch (\Exception $e) {
