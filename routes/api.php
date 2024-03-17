@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\FavoriteCoinController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,4 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/favorite-coins', [FavoriteCoinController::class, 'index']);
     Route::post('/favorite-coins', [FavoriteCoinController::class, 'store']);
     Route::delete('/favorite-coins/{id}', [FavoriteCoinController::class, 'destroy']);
+
+    Route::get('/profile', [UserController::class, 'index']);
+    Route::put('/update-profile', [UserController::class, 'updateProfile']);
 });
