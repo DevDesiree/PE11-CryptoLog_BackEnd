@@ -23,6 +23,7 @@ class TransactionFactory extends Factory
             'price_buy' => $this->faker->randomFloat(2, 1, 100),
             'amount' => $this->faker->randomFloat(2, 1, 100),
             'actual_price' => $this->faker->randomFloat(2, 1, 100),
+            'date_buy' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
