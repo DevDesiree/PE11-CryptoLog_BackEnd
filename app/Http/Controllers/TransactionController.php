@@ -23,7 +23,8 @@ class TransactionController extends Controller
                 'quantity' => 'required|numeric',
                 'price_buy' => 'required|numeric',
                 'amount' => 'required|numeric',
-                'actual_price' => 'required|numeric',
+                'date_buy' => 'required|date_format:Y-m-d'
+                // 'actual_price' => 'required|numeric',
             ]);
 
             $user = Auth::user();
@@ -34,7 +35,8 @@ class TransactionController extends Controller
                 'quantity' => $request->quantity,
                 'price_buy' => $request->price_buy,
                 'amount' => $request->amount,
-                'actual_price' => $request->actual_price,
+                'date_buy' => $request->date_buy,
+                // 'actual_price' => $request->actual_price,
             ]);
             return response()->json([
                 'message' => 'La transacción se ha realizado correctamente',
