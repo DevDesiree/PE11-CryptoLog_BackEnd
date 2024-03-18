@@ -15,6 +15,22 @@ class TransactionController extends Controller
         return response()->json($transaction);
     }
 
+    public function show($id)
+    {
+        try {
+            $transaction = Transaction::findOrFail($id);
+
+            if ($transaction->user_id != Auth::id()) {
+                return response()->json(['message' => 'No tienes permiso para ver esta transacción'], 403);
+            }
+
+            return response()->json(['message' => 'Transacción encontrada', 'transaction' => $transaction], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al obtener los detalles de la transacción: ' . $e->getMessage()], 500);
+        }
+    }
+
+
     public function store(Request $request)
     {
         try {
@@ -53,7 +69,7 @@ class TransactionController extends Controller
             $request->validate([
                 'coin_id' => 'required|exists:coins,id',
                 'quantity' => 'required|numeric',
-                'actual_price' => 'required|numeric',
+                // 'actual_price' => 'required|numeric',
                 'amount' => 'required|numeric',
             ]);
 

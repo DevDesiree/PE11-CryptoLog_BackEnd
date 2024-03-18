@@ -28,6 +28,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::get('/transactions/{id}', [TransactionController::class, 'show']);
     Route::post('/create-transaction', [TransactionController::class, 'store']);
     Route::put('/update-transaction/{id}', [TransactionController::class, 'update']);
     Route::delete('/delete-transaction/{id}', [TransactionController::class, 'destroy']);
