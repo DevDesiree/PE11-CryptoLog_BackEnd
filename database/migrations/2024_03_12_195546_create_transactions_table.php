@@ -20,7 +20,8 @@ return new class extends Migration
             $table->tinyInteger('quantity');
             $table->double('price_buy', 8, 2);
             $table->double('amount', 8, 2);
-            $table->double('actual_price', 8, 2);
+            $table->double('actual_price', 8, 2)->nullable();
+            $table->date('date_buy');
             $table->timestamps();
         });
     }
