@@ -18,7 +18,7 @@ class TransactionController extends Controller
     public function show($id)
     {
         try {
-            $transaction = Transaction::findOrFail($id);
+            $transaction = Transaction::with('coin')->findOrFail($id);
 
             if ($transaction->user_id != Auth::id()) {
                 return response()->json(['message' => 'No tienes permiso para ver esta transacción'], 403);

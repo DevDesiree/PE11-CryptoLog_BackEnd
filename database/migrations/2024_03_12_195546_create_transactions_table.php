@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('coin_id');
             $table->foreign('coin_id')->references('id')->on('coins');
-            $table->tinyInteger('quantity');
-            $table->double('price_buy', 8, 2);
-            $table->double('amount', 8, 2);
-            $table->double('actual_price', 8, 2)->nullable();
+            $table->float('quantity');
+            $table->float('price_buy', 8, 2);
+            $table->float('amount', 8, 2);
+            $table->float('actual_price', 8, 2)->nullable();
             $table->date('date_buy');
             $table->timestamps();
         });
