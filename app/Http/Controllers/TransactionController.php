@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Auth;
 class TransactionController extends Controller
 {
     public function index()
-{
-    try {
-        $user = Auth::user();
-        $transactions = Transaction::with('coin')->where('user_id', $user->id)->get();
-        return response()->json($transactions);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Error al obtener las transacciones: ' . $e->getMessage()], 500);
+    {
+        try {
+            $user = Auth::user();
+            $transactions = Transaction::with('coin')->where('user_id', $user->id)->get();
+            return response()->json($transactions);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al obtener las transacciones: ' . $e->getMessage()], 500);
+        }
     }
-}
 
     public function show($id)
     {
@@ -36,30 +36,37 @@ class TransactionController extends Controller
         }
     }
 
-
     public function store(Request $request)
     {
         try {
             $request->validate([
-                'coin_id' => 'required|exists:coins,id',
                 'quantity' => 'required|numeric',
                 'price_buy' => 'required|numeric',
                 'amount' => 'required|numeric',
                 'date_buy' => 'required|date_format:Y-m-d'
-                // 'actual_price' => 'required|numeric',
             ]);
 
             $user = Auth::user();
 
+            $coinName = $request->coin_name;
+
+            $coin = Coin::where('name', $coinName)->first();
+
+            if (!$coin) {
+                $coin = Coin::create([
+                    'name' => $coinName,
+                ]);
+            }
+
             $transaction = Transaction::create([
                 'user_id' => $user->id,
-                'coin_id' => $request->coin_id,
+                'coin_id' => $coin->id,
                 'quantity' => $request->quantity,
                 'price_buy' => $request->price_buy,
                 'amount' => $request->amount,
                 'date_buy' => $request->date_buy,
-                // 'actual_price' => $request->actual_price,
             ]);
+
             return response()->json([
                 'message' => 'La transacción se ha realizado correctamente',
                 'transaction' => $transaction,
@@ -72,13 +79,6 @@ class TransactionController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $request->validate([
-                'coin_id' => 'required|exists:coins,id',
-                'quantity' => 'required|numeric',
-                // 'actual_price' => 'required|numeric',
-                'amount' => 'required|numeric',
-            ]);
-
             $transaction = Transaction::findOrFail($id);
 
             if ($transaction->user_id != Auth::id()) {
