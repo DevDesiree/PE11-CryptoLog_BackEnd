@@ -30,12 +30,6 @@ class UserController extends Controller
         try {
             $user = $request->user();
 
-            // $request->validate([
-            //     'name' => 'required|string|max:255',
-            //     'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
-            // ]);
-
             if ($request->hasFile('avatar')) {
                 $avatarPath = $request->file('avatar')->getRealPath();
                 $uploadedFile = Cloudinary::upload($avatarPath, [
