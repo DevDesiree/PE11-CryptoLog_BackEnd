@@ -10,15 +10,21 @@ use Illuminate\Support\Facades\Auth;
 class TransactionController extends Controller
 {
     public function index()
-    {
-        $transaction = Auth::user()->transaction;
-        return response()->json($transaction);
+{
+    try {
+        $user = Auth::user();
+        $transactions = Transaction::with('coin')->where('user_id', $user->id)->get();
+        return response()->json($transactions);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error al obtener las transacciones: ' . $e->getMessage()], 500);
     }
+}
 
     public function show($id)
     {
         try {
-            $transaction = Transaction::with('coin')->findOrFail($id);
+            $user = Auth::user();
+            $transaction = Transaction::with('coin')->where('user_id', $user->id)->findOrFail($id);
 
             if ($transaction->user_id != Auth::id()) {
                 return response()->json(['message' => 'No tienes permiso para ver esta transacción'], 403);
