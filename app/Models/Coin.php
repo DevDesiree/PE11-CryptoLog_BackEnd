@@ -9,6 +9,8 @@ class Coin extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
+
     public function transaction()
     {
         return $this->hasMany(Transaction::class);
