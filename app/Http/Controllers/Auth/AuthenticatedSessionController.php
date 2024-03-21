@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 
+use App\Models\Historical;
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -18,10 +20,18 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): JsonResponse
     {
         try {
+
             $request->authenticate();
 
             $user = $request->user();
             $token = $user->createToken('token-name')->plainTextToken;
+
+            Historical::create([
+                'user_id' => $user->id,
+                'action' => 'Inicio de sesión',
+                'device' => $request->header('User-Agent'), 
+                'ip_address' => $request->ip()
+            ]);
 
             return response()->json([
                 'message' => "Has iniciado sesión correctamente, bienvenid@ {$user->name}!", 'token' => $token,
@@ -32,17 +42,22 @@ class AuthenticatedSessionController extends Controller
         }
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): Response
+    public function destroy(Request $request): JsonResponse
     {
-        Auth::guard('web')->logout();
+        $user = $request->user();
 
-        $request->session()->invalidate();
+        if ($user) {
+            Historical::create([
+                'user_id' => $user->id,
+                'action' => 'Cierre de Sesión',
+                'device' => $request->header('User-Agent'),
+                'ip_address' => $request->ip()
+            ]);
+        }
 
-        $request->session()->regenerateToken();
+        $request->user()->tokens()->delete();
 
-        return response()->noContent();
+        return response()->json(['message' => 'Sesión cerrada exitosamente.']);
     }
+
 }
