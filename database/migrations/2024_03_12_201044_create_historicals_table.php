@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('action');
+            $table->string('device')->nullable(); 
+            $table->ipAddress('ip_address')->nullable();
             $table->timestamps();
         });
     }
