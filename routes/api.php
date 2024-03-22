@@ -43,6 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/profile', [UserController::class, 'index']);
     Route::put('/update-profile', [UserController::class, 'updateProfile']);
+    Route::get('/historicals', [UserController::class, 'getHistoricals']);
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 });
