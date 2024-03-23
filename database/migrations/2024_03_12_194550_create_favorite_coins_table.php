@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('coin_id');
-            $table->foreign('coin_id')->references('id')->on('coins');
+            $table->string('coin_name');
             $table->timestamps();
         });
     }
