@@ -16,8 +16,4 @@ class Coin extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function favorite_coin()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
