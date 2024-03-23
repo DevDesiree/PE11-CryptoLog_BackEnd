@@ -37,9 +37,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/update-transaction/{id}', [TransactionController::class, 'update']);
     Route::delete('/delete-transaction/{id}', [TransactionController::class, 'destroy']);
 
-    Route::get('/favorite-coins', [FavoriteCoinController::class, 'index']);
-    Route::post('/favorite-coins', [FavoriteCoinController::class, 'store']);
-    Route::delete('/favorite-coins/{id}', [FavoriteCoinController::class, 'destroy']);
+    Route::get('/favorite-coins', [FavoriteCoinController::class, 'getFavorites']);
+    Route::post('/favorite-coins', [FavoriteCoinController::class, 'addFavorite']);
+    Route::delete('/favorite-coins/{id}', [FavoriteCoinController::class, 'removeFavorite']);
 
     Route::get('/profile', [UserController::class, 'index']);
     Route::put('/update-profile', [UserController::class, 'updateProfile']);

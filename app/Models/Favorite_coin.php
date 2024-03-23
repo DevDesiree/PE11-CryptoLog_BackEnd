@@ -10,15 +10,10 @@ class Favorite_coin extends Model
     use HasFactory;
 
     protected $table = 'favorite_coins'; 
-    protected $fillable = ['user_id', 'coin_id'];
+    protected $fillable = ['user_id', 'coin_name'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function coin()
-    {
-        return $this->belongsTo(Coin::class);
     }
 }
