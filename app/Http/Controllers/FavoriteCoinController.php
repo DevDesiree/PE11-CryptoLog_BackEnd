@@ -4,59 +4,59 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Favorite_coin;
-use App\Models\Coin;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteCoinController extends Controller
 {
-    public function index()
+    public function getFavorites(Request $request)
     {
-        $favoriteCoins = Auth::user()->favorite_coin;
+        if (Auth::user()) {
+            try {
+                $userId = $request->user()->id;
 
-        return response()->json($favoriteCoins);
-    }
+                $favorites = Favorite_coin::where('user_id', $userId)->pluck('coin_name');
 
-    public function store(Request $request)
-    {
-        try {
-            $user = Auth::user();
-
-            $request->validate([
-                'coin_id' => 'required|exists:coins,id'
-            ]);
-
-            $favoriteCoin = Favorite_coin::create([
-                'user_id' => $user->id,
-                'coin_id' => $request->coin_id
-            ]);
-
-            $coinName = Coin::findOrFail($request->coin_id)->name;
-
-            return response()->json(['message' => "La moneda $coinName ha sido agregada a tus favoritos correctamente $favoriteCoin"], 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear la moneda favorita: ' . $e->getMessage()], 500);
+                return response()->json($favorites);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Error al obtener las monedas favoritas' . $e->getMessage()], 500);
+            }
         }
     }
 
-    public function destroy(Request $request , $id)
+    public function addFavorite(Request $request)
     {
-        try {
+        if (Auth::user()) {
+            try {
+                $userId = $request->user()->id;
+                $coinName = $request->coin_name;
 
-            $favoriteCoin = Favorite_coin::where('coin_id', $id)
-                ->where('user_id', auth()->id())
-                ->first();
+                $favoriteCoin = Favorite_coin::create([
+                    'user_id' => $userId,
+                    'coin_name' => $coinName,
+                ]);
 
-            if (!$favoriteCoin) {
-                return response()->json(['error' => 'La moneda especificada no está marcada como favorita'], 404);
+                return response()->json(['message' => 'Moneda añadida a favoritos', $favoriteCoin]);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Error al añadir moneda a favoritos' . $e->getMessage()], 500);
             }
+        }
+    }
 
-            $coinName = Coin::findOrFail($request->coin_id)->name;
 
-            $favoriteCoin->delete();
+    public function removeFavorite(Request $request, $coinName)
+    {
+        if (Auth::user()) {
+            try {
+                $userId = $request->user()->id;
 
-            return response()->json(['message' => "La moneda {$coinName} ha sido eliminada de tus favoritos correctamente"], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar la moneda favorita: ' . $e->getMessage()], 500);
+                Favorite_coin::where('user_id', $userId)
+                    ->where('coin_name', $coinName)
+                    ->delete();
+
+                return response()->json(['message' => 'Moneda eliminada de favoritos']);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Error al borrar moneda de favoritos' . $e->getMessage()], 500);
+            }
         }
     }
 }
