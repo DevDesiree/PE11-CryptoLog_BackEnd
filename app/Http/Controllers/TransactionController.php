@@ -13,7 +13,7 @@ class TransactionController extends Controller
     {
         try {
             $user = Auth::user();
-            $transactions = Transaction::with('coin')->where('user_id', $user->id)->get();
+            $transactions = Transaction::with('coin')->where('user_id', $user->id)->orderBy('date_buy', 'desc')->get();
             return response()->json($transactions);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error al obtener las transacciones: ' . $e->getMessage()], 500);
