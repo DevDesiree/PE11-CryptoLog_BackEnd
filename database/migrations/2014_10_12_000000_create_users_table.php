@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('avatar')->nullable()->default('https://doodleipsum.com/700/hand-drawn?i=33b0696d15473a80fe6eac989d0b708d');
+            $table->string('public_id')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
