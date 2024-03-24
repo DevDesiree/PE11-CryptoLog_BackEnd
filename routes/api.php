@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\CreateJsonCacheApiController;
 use App\Http\Controllers\FavoriteCoinController;
 use App\Http\Controllers\ReadJsonFileController;
 use App\Http\Controllers\TransactionController;
@@ -29,6 +30,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
 Route::get('/json', [ReadJsonFileController::class, 'index']);
+Route::get('/updateJson', [CreateJsonCacheApiController::class, 'CreateOrUpdate']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/transactions', [TransactionController::class, 'index']);
