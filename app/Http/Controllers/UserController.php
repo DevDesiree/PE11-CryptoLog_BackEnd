@@ -70,9 +70,9 @@ class UserController extends Controller
         if (Auth::user()) {
             try {
                 $user = $request->user();
-
+    
                 if ($user) {
-                    $historicals = Historical::latest()->get();
+                    $historicals = Historical::where('user_id', $user->id)->latest()->get();
                     return response()->json($historicals);
                 } else {
                     return response()->json(['message' => 'Usuario no autenticado.'], 401);
@@ -82,4 +82,5 @@ class UserController extends Controller
             }
         }
     }
+    
 }
