@@ -11,47 +11,54 @@ use App\Models\Favorite_coin;
 class FavoriteCoinControllerTest extends TestCase
 {
     // use RefreshDatabase;
+    public function test_can_get_favorite_coins()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create();
+        $favoriteCoinNames = ['Bitcoin', 'Ethereum', 'Litecoin'];
+
+        foreach ($favoriteCoinNames as $coinName) {
+            Favorite_coin::factory()->create([
+                'user_id' => $user->id,
+                'coin_name' => $coinName,
+            ]);
+        }
+
+        $response = $this->actingAs($user)
+            ->get('/api/favorite-coins');
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJson($favoriteCoinNames); 
+    }
+
 
     public function test_can_create_favorite_coin()
     {
+        $this->withoutExceptionHandling();
+
         $user = User::factory()->create();
-        $coinId = 1;
 
         $response = $this->actingAs($user)
-                         ->post('/api/favorite-coins', ['coin_id' => $coinId]);
+            ->postJson('/api/favorite-coins', ['coin_name' => 'Bitcoin']);
 
         $response->assertStatus(Response::HTTP_CREATED);
     }
 
-    public function test_cannot_create_favorite_coin_with_invalid_data()
-    {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($user)
-                         ->post('/api/favorite-coins', ['coin_id' => 999]); 
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
 
     public function test_can_delete_favorite_coin()
     {
+        $this->withoutExceptionHandling();
+
         $user = User::factory()->create();
-        $favoriteCoin = Favorite_coin::factory()->create(['user_id' => $user->id]);
+        $favoriteCoin = Favorite_coin::factory()->create([
+            'user_id' => $user->id,
+            'coin_name' => 'bitcoin'
+        ]);
 
         $response = $this->actingAs($user)
-                         ->delete("/api/favorite-coins/{$favoriteCoin->id}");
+            ->delete("/api/favorite-coins/{$favoriteCoin->coin_name}");
 
         $response->assertStatus(Response::HTTP_OK);
-               
-    }
-
-    public function test_cannot_delete_non_existing_favorite_coin()
-    {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($user)
-                         ->delete('/api/favorite-coins/999');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

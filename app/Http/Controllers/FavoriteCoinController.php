@@ -35,7 +35,7 @@ class FavoriteCoinController extends Controller
                     'coin_name' => $coinName,
                 ]);
 
-                return response()->json(['message' => 'Moneda añadida a favoritos', $favoriteCoin]);
+                return response()->json(['message' => 'Moneda añadida a favoritos', $favoriteCoin], 201);
             } catch (\Exception $e) {
                 return response()->json(['message' => 'Error al añadir moneda a favoritos' . $e->getMessage()], 500);
             }
@@ -53,7 +53,7 @@ class FavoriteCoinController extends Controller
                     ->where('coin_name', $coinName)
                     ->delete();
 
-                return response()->json(['message' => 'Moneda eliminada de favoritos']);
+                return response()->json(['message' => 'Moneda eliminada de favoritos'], 200);
             } catch (\Exception $e) {
                 return response()->json(['message' => 'Error al borrar moneda de favoritos' . $e->getMessage()], 500);
             }
