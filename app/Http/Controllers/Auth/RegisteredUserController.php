@@ -26,8 +26,10 @@ class RegisteredUserController extends Controller
         try {
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'email' => ['required', 'string', 'lowercase', 'email:rfc,dns', 'max:255', 'unique:' . User::class],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ], [
+                'email.email' => 'El campo :attribute debe ser una dirección de correo electrónico válida.',
             ]);
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
