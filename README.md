@@ -1,66 +1,69 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CryptoLog - Backend
+Proyecto de servidor para la gestión de usuarios, autenticación, transacciones y seguridad de la aplicación CryptoLog, utilizando Laravel Breeze, Sanctum y MySQL.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📄 Descripción
+CryptoLog - Backend es el servidor encargado de gestionar los usuarios, autenticación, transacciones y la seguridad de la aplicación CryptoLog. Utiliza Laravel Breeze con Sanctum para proporcionar una autenticación simple y rápidamente escalable. Además, se integra con MySQL para almacenar los datos de forma persistente.
 
-## About Laravel
+## 📚 Instalación
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Clona el repositorio:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+git clone https://github.com/DevDesiree/PE11-CryptoLog_BackEnd.git
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. Instalación de dependencias:
 
-## Learning Laravel
+Asegúrate de tener PHP y Composer instalados en tu sistema.
+En la terminal, navega hasta la carpeta del proyecto y ejecuta:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+composer install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3. Configuración del entorno:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Crea un archivo .env en la raíz del proyecto y configura las variables de entorno necesarias, como la conexión a la base de datos MySQL.
 
-## Laravel Sponsors
+4. Configuración de la base de datos:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Crea una base de datos MySQL para el proyecto y configura las credenciales en el archivo .env.
 
-### Premium Partners
+5. Ejecuta las migraciones para crear las tablas necesarias en la base de datos:
+```bash
+php artisan migrate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+6. Ejecución del servidor:
 
-## Contributing
+```bash
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Esto iniciará el servidor. Asegúrate de que esté funcionando correctamente antes de usar la aplicación frontend.
 
-## Code of Conduct
+## 📕 Rutas
+- `/register` (POST): Registro de nuevos usuarios.
+- `/login` (POST): Inicio de sesión de usuarios existentes.
+- `/json` (GET): Obtener datos en formato JSON.
+- `/updateJson` (GET): Actualizar datos JSON en caché.
+- `/transactions` (GET): Obtener todas las transacciones.
+- `/transactions/{id}` (GET): Obtener una transacción específica por ID.
+- `/create-transaction` (POST): Crear una nueva transacción.
+- `/update-transaction/{id}` (PUT): Actualizar una transacción existente por ID.
+- `/delete-transaction/{id}` (DELETE): Eliminar una transacción existente por ID.
+- `/favorite-coins` (GET): Obtener todas las monedas favoritas del usuario.
+- `/favorite-coins` (POST): Agregar una nueva moneda favorita para el usuario.
+- `/favorite-coins/{id}` (DELETE): Eliminar una moneda favorita del usuario por ID.
+- `/profile` (GET): Obtener el perfil del usuario.
+- `/update-profile` (POST): Actualizar el perfil del usuario.
+- `/historicals` (GET): Obtener el historial del usuario.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+## 💻 Tecnologías Utilizadas
+Laravel, Breeze y Sanctum
+PHP
+MySQL
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 👩‍💻 Autora
+*Desiree Sánchez*
