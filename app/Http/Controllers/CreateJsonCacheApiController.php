@@ -12,7 +12,7 @@ class CreateJsonCacheApiController extends Controller
     {
         error_log("Se ha llamado al metodo CreateOrUpdate");
 
-        $coinGeckoApi = env('aaCOIN_API');
+        $coinGeckoApi = env('COIN_API');
     
         $response = Http::get($coinGeckoApi);
 

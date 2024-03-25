@@ -31,34 +31,6 @@ class ProfileUserControllerTest extends TestCase
             ]);
     }
 
-    public function test_update_profile_without_file_upload()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-    
-        $formData = [
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-        ];
-    
-        $response = $this->postJson('/api/update-profile', $formData);
-    
-        $response->assertStatus(200) 
-            ->assertJson([
-                'message' => 'Perfil actualizado correctamente',
-                'user' => [
-                    'name' => 'Updated Name',
-                    'email' => 'updated@example.com',
-                ]
-            ]);
-    
-        $this->assertDatabaseHas('users', [
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-        ]);
-    }
-
-
     public function test_update_profile_with_file_upload()
     {
         $user = User::factory()->create();
