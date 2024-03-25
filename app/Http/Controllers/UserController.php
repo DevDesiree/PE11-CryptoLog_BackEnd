@@ -34,28 +34,22 @@ class UserController extends Controller
             try {
                 $user = $request->user();
 
-                // Obtiene los datos del formulario
                 $formData = $request->only(['name', 'email']);
 
-                // Verifica si se ha cargado un archivo
                 if ($request->hasFile('avatar')) {
                     $avatar = $request->file('avatar');
 
-                    // Carga la imagen en Cloudinary
                     $uploadedFile = Cloudinary::upload($avatar->getRealPath(), [
                         'folder' => 'avatars',
                     ]);
 
-                    // Obtiene la URL y el public_id de la imagen cargada en Cloudinary
                     $avatarUrl = $uploadedFile->getSecurePath();
                     $publicId = $uploadedFile->getPublicId();
 
-                    // Actualiza el perfil del usuario con la URL de la imagen y el public_id
                     $formData['avatar'] = $avatarUrl;
                     $formData['public_id'] = $publicId;
                 }
-
-                // Actualiza el perfil del usuario
+                
                 $user->update($formData);
 
                 return response()->json(['message' => 'Perfil actualizado correctamente', 'user' => $user], 200);
